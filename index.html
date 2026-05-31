@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropMate — Complete Project Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  /* ── Reset & Base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #16161f;
+    --bg4: #1c1c28;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #e8e8f0;
+    --muted: #8888a0;
+    --faint: #4a4a60;
+    --accent: #6c63ff;
+    --accent2: #a78bfa;
+    --accent3: #38bdf8;
+    --accent4: #34d399;
+    --accent5: #fb923c;
+    --accent6: #f472b6;
+    --accent-glow: rgba(108,99,255,0.15);
+    --font-head: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-lg: 16px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── Noise texture overlay ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── Typography ── */
+  h1, h2, h3, h4 { font-family: var(--font-head); letter-spacing: -0.02em; }
+  h1 { font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 800; line-height: 1.05; }
+  h2 { font-size: 1.6rem; font-weight: 700; }
+  h3 { font-size: 1.15rem; font-weight: 600; }
+  h4 { font-size: 0.95rem; font-weight: 600; }
+  p { color: var(--muted); line-height: 1.75; }
+  a { color: var(--accent2); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.82em;
+    background: rgba(108,99,255,0.15);
+    color: var(--accent2);
+    padding: 2px 7px;
+    border-radius: 5px;
+    border: 1px solid rgba(108,99,255,0.2);
+  }
+
+  /* ── Layout ── */
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 90px 0 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(108,99,255,0.18) 0%, transparent 65%);
+    top: -150px; left: -100px;
+    pointer-events: none;
+  }
+  .hero-glow2 {
+    position: absolute;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(56,189,248,0.1) 0%, transparent 65%);
+    top: 0; right: -80px;
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    background: rgba(108,99,255,0.12);
+    border: 1px solid rgba(108,99,255,0.25);
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+  }
+  .hero-eyebrow::before { content: '●'; font-size: 8px; color: var(--accent4); }
+  .hero-title { margin-bottom: 20px; }
+  .hero-title .line1 { display: block; color: var(--text); }
+  .hero-title .line2 {
+    display: block;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent3) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 600px;
+    margin-bottom: 36px;
+    line-height: 1.7;
+  }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 48px; }
+  .tag {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 13px;
+    border-radius: 100px;
+    border: 1px solid var(--border2);
+    color: var(--muted);
+    background: var(--bg2);
+    letter-spacing: 0.02em;
+  }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+  .stat-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  .stat-number {
+    font-family: var(--font-head);
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent2), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label { font-size: 12px; color: var(--faint); letter-spacing: 0.03em; }
+
+  /* ── Nav ── */
+  .sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0;
+  }
+  .nav-inner {
+    display: flex;
+    gap: 2px;
+    padding: 10px 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    flex-shrink: 0;
+    padding: 8px 18px;
+    border-radius: var(--radius-sm);
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .nav-btn:hover { background: var(--bg3); color: var(--text); }
+  .nav-btn.active {
+    background: rgba(108,99,255,0.15);
+    color: var(--accent2);
+    border: 1px solid rgba(108,99,255,0.25);
+  }
+
+  /* ── Sections ── */
+  .section { display: none; padding: 56px 0; }
+  .section.active { display: block; }
+
+  .section-header { margin-bottom: 40px; }
+  .section-header .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .section-header h2 { color: var(--text); margin-bottom: 10px; }
+  .section-header p { font-size: 15px; max-width: 580px; }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--border2); }
+  .card-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .card-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .icon-purple { background: rgba(108,99,255,0.15); color: var(--accent2); }
+  .icon-blue { background: rgba(56,189,248,0.12); color: var(--accent3); }
+  .icon-green { background: rgba(52,211,153,0.12); color: var(--accent4); }
+  .icon-orange { background: rgba(251,146,60,0.12); color: var(--accent5); }
+  .icon-pink { background: rgba(244,114,182,0.12); color: var(--accent6); }
+  .icon-teal { background: rgba(20,184,166,0.12); color: #2dd4bf; }
+
+  .card-title { font-family: var(--font-head); font-size: 1rem; font-weight: 600; color: var(--text); }
+  .card-sub { font-size: 13px; color: var(--faint); margin-top: 2px; }
+  .card p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 10px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  /* ── Grid layouts ── */
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin-bottom: 16px; }
+  .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 16px; }
+
+  /* ── Pill badges ── */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .pill-purple { background: rgba(108,99,255,0.15); color: var(--accent2); border: 1px solid rgba(108,99,255,0.2); }
+  .pill-blue { background: rgba(56,189,248,0.12); color: var(--accent3); border: 1px solid rgba(56,189,248,0.2); }
+  .pill-green { background: rgba(52,211,153,0.12); color: var(--accent4); border: 1px solid rgba(52,211,153,0.2); }
+  .pill-orange { background: rgba(251,146,60,0.12); color: var(--accent5); border: 1px solid rgba(251,146,60,0.2); }
+  .pill-pink { background: rgba(244,114,182,0.12); color: var(--accent6); border: 1px solid rgba(244,114,182,0.2); }
+  .pill-gray { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border); }
+
+  /* ── Tech rows ── */
+  .tech-section { margin-bottom: 36px; }
+  .tech-section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tech-item {
+    display: grid;
+    grid-template-columns: 210px 1fr;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .tech-item:last-child { border-bottom: none; }
+  .tech-left { display: flex; flex-direction: column; gap: 6px; }
+  .tech-name { font-family: var(--font-head); font-size: 13.5px; font-weight: 600; color: var(--text); }
+  .tech-right { font-size: 13.5px; color: var(--muted); line-height: 1.7; }
+
+  /* ── Timeline ── */
+  .timeline { position: relative; padding-left: 0; }
+  .tl-item {
+    display: flex;
+    gap: 20px;
+    padding-bottom: 32px;
+    position: relative;
+  }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .tl-dot {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent2);
+    flex-shrink: 0;
+  }
+  .tl-line {
+    width: 1px;
+    flex: 1;
+    background: linear-gradient(to bottom, var(--border2), transparent);
+    margin-top: 8px;
+    min-height: 20px;
+  }
+  .tl-item:last-child .tl-line { display: none; }
+  .tl-body { padding-top: 6px; flex: 1; }
+  .tl-title { font-family: var(--font-head); font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .tl-desc { font-size: 13.5px; color: var(--muted); line-height: 1.7; }
+
+  /* ── Algorithm blocks ── */
+  .algo-block {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+  .algo-block:last-child { margin-bottom: 0; }
+  .algo-block strong { color: var(--text); font-weight: 600; }
+  .algo-block .math {
+    display: block;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 13px;
+    color: var(--accent4);
+    background: rgba(52,211,153,0.07);
+    border: 1px solid rgba(52,211,153,0.15);
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    margin: 10px 0;
+  }
+  .algo-color-purple { border-left-color: var(--accent); }
+  .algo-color-blue { border-left-color: var(--accent3); }
+  .algo-color-green { border-left-color: var(--accent4); }
+  .algo-color-orange { border-left-color: var(--accent5); }
+  .algo-color-pink { border-left-color: var(--accent6); }
+
+  /* ── File cards ── */
+  .file-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin-bottom: 10px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .file-card:hover { border-color: var(--border2); background: var(--bg3); }
+  .file-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+  .file-card-name { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 14px; color: var(--accent2); font-weight: 500; }
+  .file-card-desc { font-size: 13.5px; color: var(--muted); line-height: 1.7; }
+
+  /* ── Q&A Accordion ── */
+  .qa-wrap { display: flex; flex-direction: column; gap: 0; }
+  .qa-item {
+    border-bottom: 1px solid var(--border);
+  }
+  .qa-item:last-child { border-bottom: none; }
+  .qa-q {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 0;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition: color 0.15s;
+    line-height: 1.5;
+  }
+  .qa-q:hover { color: var(--accent2); }
+  .qa-q .qnum {
+    font-family: var(--font-head);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--faint);
+    flex-shrink: 0;
+    width: 24px;
+  }
+  .qa-q .qtxt { flex: 1; }
+  .qa-q .qchev {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    color: var(--faint);
+    flex-shrink: 0;
+    transition: transform 0.2s, background 0.15s, color 0.15s;
+  }
+  .qa-q.open .qchev { transform: rotate(180deg); background: rgba(108,99,255,0.15); color: var(--accent2); border-color: rgba(108,99,255,0.25); }
+  .qa-a {
+    display: none;
+    padding: 0 0 20px 40px;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .qa-a.open { display: block; }
+
+  /* ── Divider ── */
+  .divider { height: 1px; background: var(--border); margin: 32px 0; }
+
+  /* ── Big overview cards ── */
+  .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 28px; }
+  .ov-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .ov-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+  .ov-card-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 14px;
+  }
+  .ov-card h3 { font-size: 14px; color: var(--text); margin-bottom: 8px; }
+  .ov-card p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+  /* ── Callout box ── */
+  .callout {
+    background: rgba(108,99,255,0.07);
+    border: 1px solid rgba(108,99,255,0.2);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+  .callout-title { font-family: var(--font-head); font-size: 14px; font-weight: 700; color: var(--accent2); margin-bottom: 8px; }
+  .callout p { font-size: 13.5px; color: var(--muted); line-height: 1.7; }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 36px 0;
+    text-align: center;
+    color: var(--faint);
+    font-size: 13px;
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .hero { padding: 60px 0 40px; }
+    .tech-item { grid-template-columns: 1fr; gap: 6px; }
+    .qa-a { padding-left: 24px; }
+  }
+
+  /* ── Fade-in animation ── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .section.active .card,
+  .section.active .ov-card,
+  .section.active .tl-item,
+  .section.active .algo-block,
+  .section.active .file-card,
+  .section.active .qa-item {
+    animation: fadeUp 0.3s ease both;
+  }
+  .section.active .ov-card:nth-child(1) { animation-delay: 0.04s; }
+  .section.active .ov-card:nth-child(2) { animation-delay: 0.08s; }
+  .section.active .ov-card:nth-child(3) { animation-delay: 0.12s; }
+  .section.active .ov-card:nth-child(4) { animation-delay: 0.16s; }
+  .section.active .ov-card:nth-child(5) { animation-delay: 0.20s; }
+  .section.active .ov-card:nth-child(6) { animation-delay: 0.24s; }
+  .section.active .tl-item:nth-child(odd) { animation-delay: 0.05s; }
+  .section.active .tl-item:nth-child(even) { animation-delay: 0.1s; }
+
+  /* ── Inline highlight ── */
+  .hl { color: var(--text); font-weight: 500; }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="container">
+    <div class="hero-eyebrow">Final Year Project — Complete Study Guide</div>
+    <h1 class="hero-title">
+      <span class="line1">PropMate —</span>
+      <span class="line2">Automated Facebook<br>Job Application System</span>
+    </h1>
+    <p class="hero-sub">Everything you need to understand, explain, and defend this project in your viva — technologies, system architecture, algorithms, AI, and more.</p>
+    <div class="hero-tags">
+      <span class="tag">Next.js 15</span>
+      <span class="tag">TypeScript</span>
+      <span class="tag">Python / FastAPI</span>
+      <span class="tag">Playwright</span>
+      <span class="tag">OpenAI GPT</span>
+      <span class="tag">Voyage AI Embeddings</span>
+      <span class="tag">PostgreSQL</span>
+      <span class="tag">Redis + Celery</span>
+      <span class="tag">Docker</span>
+      <span class="tag">nginx</span>
+      <span class="tag">Tor proxy</span>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-number">12</div><div class="stat-label">Automation steps</div></div>
+      <div class="stat-card"><div class="stat-number">3</div><div class="stat-label">AI model stages</div></div>
+      <div class="stat-card"><div class="stat-number">7+</div><div class="stat-label">Backend services</div></div>
+      <div class="stat-card"><div class="stat-number">15</div><div class="stat-label">Viva Q&amp;As covered</div></div>
+      <div class="stat-card"><div class="stat-number">5–6×</div><div class="stat-label">Daily runs</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Navigation -->
+<nav class="sticky-nav">
+  <div class="container">
+    <div class="nav-inner">
+      <button class="nav-btn active" onclick="show('overview',this)">🗺 Overview</button>
+      <button class="nav-btn" onclick="show('tech',this)">⚙️ Tech Stack</button>
+      <button class="nav-btn" onclick="show('workflow',this)">🔄 Workflow</button>
+      <button class="nav-btn" onclick="show('algo',this)">🧠 Algorithms & AI</button>
+      <button class="nav-btn" onclick="show('files',this)">📁 Your Files</button>
+      <button class="nav-btn" onclick="show('viva',this)">🎓 Viva Q&amp;A</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════
+     SECTION: Overview
+═══════════════════════════════════ -->
+<section class="section active" id="sec-overview">
+  <div class="container">
+
+    <div class="section-header">
+      <div class="eyebrow">Project Overview</div>
+      <h2>What did you actually build?</h2>
+      <p>A full-stack web application that automates the entire job discovery and application process inside Facebook groups — from finding posts to writing and submitting personalised replies.</p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">🎯 One-sentence summary (memorise this for your viva opening)</div>
+      <p>"PropMate is an automated job application system that uses browser automation, semantic AI matching, and GPT-powered content generation to help users discover and apply to job opportunities posted in Facebook groups — with no repetitive manual effort."</p>
+    </div>
+
+    <div class="overview-grid">
+      <div class="ov-card">
+        <div class="ov-card-icon icon-purple">🖥️</div>
+        <h3>Frontend Portal</h3>
+        <p>A Next.js + TypeScript web portal where users register, upload their CV, set job preferences, and monitor applications and replies from a dashboard.</p>
+      </div>
+      <div class="ov-card">
+        <div class="ov-card-icon icon-blue">⚡</div>
+        <h3>Backend API</h3>
+        <p>A Python FastAPI server that handles all business logic, authentication, stores data in PostgreSQL, and exposes REST endpoints to the frontend.</p>
+      </div>
+      <div class="ov-card">
+        <div class="ov-card-icon icon-orange">🤖</div>
+        <h3>Automation Engine</h3>
+        <p>Playwright controls a real Chromium browser — logs into Facebook, scrolls group feeds, extracts post content, types replies, and submits them.</p>
+      </div>
+      <div class="ov-card">
+        <div class="ov-card-icon icon-green">🧠</div>
+        <h3>AI Layer</h3>
+        <p>Voyage AI converts text into embedding vectors for semantic job matching. OpenAI GPT generates unique, personalised application comments per post.</p>
+      </div>
+      <div class="ov-card">
+        <div class="ov-card-icon icon-teal">🗄️</div>
+        <h3>Data & Queuing</h3>
+        <p>PostgreSQL stores all persistent data. Redis acts as the message broker. Celery runs tasks on a fixed schedule — 5–6 times per day.</p>
+      </div>
+      <div class="ov-card">
+        <div class="ov-card-icon icon-pink">🐳</div>
+        <h3>Infrastructure</h3>
+        <p>Everything runs in Docker containers on Ubuntu behind an nginx reverse proxy. Tor routes traffic anonymously. Let's Encrypt provides HTTPS.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon icon-purple">🔗</div>
+        <div><div class="card-title">How the pieces connect</div><div class="card-sub">High-level system architecture</div></div>
+      </div>
+      <p>The <span class="hl">user's browser</span> talks to the <span class="hl">Next.js frontend</span> which calls the <span class="hl">FastAPI backend</span> over HTTPS (proxied by nginx). The backend stores data in <span class="hl">PostgreSQL</span> and publishes tasks to <span class="hl">Redis</span>. <span class="hl">Celery workers</span> consume those tasks and run the <span class="hl">Playwright automation engine</span> which opens a real browser, visits Facebook through a <span class="hl">Tor proxy</span>, and performs all scraping and posting. AI calls are made from the worker to <span class="hl">Voyage AI</span> (for embedding) and <span class="hl">OpenAI</span> (for comment generation) over the internet. All services run as isolated <span class="hl">Docker containers</span> on one Ubuntu server.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     SECTION: Tech Stack
+═══════════════════════════════════ -->
+<section class="section" id="sec-tech">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Technology Stack</div>
+      <h2>Every tool, library, and language — explained</h2>
+      <p>What each technology is, why it was chosen, and exactly what role it plays in this project.</p>
+    </div>
+
+    <!-- Frontend -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon icon-purple">🖥️</div>
+        <div><div class="card-title">Frontend — the website users see</div></div>
+      </div>
+      <div class="tech-section">
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Next.js 15</div><span class="pill pill-purple">Framework</span></div>
+          <div class="tech-right">A React-based framework for building web applications. Handles <strong>routing</strong> (each file in the <code>app/</code> folder becomes a URL), <strong>server-side rendering</strong> (pages are pre-built on the server for fast load times), and <strong>API routes</strong>. Used because it's the industry standard for production-grade React apps and has built-in support for TypeScript and Tailwind. The <code>output: "standalone"</code> config makes it deployable in Docker without needing a full <code>node_modules</code> folder at runtime.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">TypeScript</div><span class="pill pill-blue">Language</span></div>
+          <div class="tech-right">A <strong>typed superset of JavaScript</strong>. You declare the type of every variable and function parameter — <code>function getUser(id: string): User</code>. The TypeScript compiler checks these types before the code ever runs, catching entire categories of bugs early. For example, if you accidentally pass a number where a string is expected, TypeScript shows an error in your editor immediately. It also makes refactoring large codebases much safer because the compiler tells you everywhere a change has a knock-on effect.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Tailwind CSS</div><span class="pill pill-blue">Styling</span></div>
+          <div class="tech-right">A "utility-first" CSS framework. Instead of writing separate CSS files, you style elements by adding short class names directly in the HTML — e.g. <code>class="flex gap-4 p-6 rounded-lg bg-white text-sm"</code>. This makes UI development very fast, especially for responsive layouts. The PostCSS plugin compiles these class names into optimised CSS at build time, so the final CSS file only contains styles that are actually used — keeping it small.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">React</div><span class="pill pill-blue">UI library</span></div>
+          <div class="tech-right">The core UI library Next.js is built on. React builds interfaces as <strong>components</strong> — reusable pieces of UI (a button, a card, a form) that manage their own state. When data changes (e.g. a new job arrives), React automatically re-renders only the components that depend on that data — not the whole page. This makes UIs fast and easy to reason about.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Axios</div><span class="pill pill-gray">HTTP client</span></div>
+          <div class="tech-right">A JavaScript library for making HTTP requests from the browser to the backend. When a user opens their dashboard and the app needs to fetch job history, Axios sends a <code>GET /api/jobs</code> request to the FastAPI backend and returns the JSON response. It handles things like request timeouts, error handling, and attaching authentication headers automatically via interceptors.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Lucide React</div><span class="pill pill-gray">Icons</span></div>
+          <div class="tech-right">A library of clean, consistent SVG icons available as React components. Used throughout the dashboard UI — notifications, status indicators, navigation icons. Each icon is a tiny component: <code>&lt;Bell size={18} /&gt;</code>.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Backend -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon icon-blue">⚙️</div>
+        <div><div class="card-title">Backend — the server that powers everything</div></div>
+      </div>
+      <div class="tech-section">
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Python</div><span class="pill pill-orange">Language</span></div>
+          <div class="tech-right">The primary language for the entire server side — API, automation, AI integration, and task scheduling. Python was chosen because: (1) the AI/ML ecosystem (Voyage, OpenAI SDK) is Python-native, (2) Playwright has excellent Python support, (3) FastAPI and Celery are Python frameworks. Using one language for all server-side code reduces complexity.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">FastAPI</div><span class="pill pill-orange">Web framework</span></div>
+          <div class="tech-right">A modern Python web framework for building REST APIs. When the frontend sends <code>GET /api/jobs</code>, FastAPI routes it to the right handler function, which queries PostgreSQL and returns a JSON response. FastAPI is <strong>fully async</strong> (using Python's <code>async/await</code>) so it can handle many concurrent requests without blocking. It also auto-generates interactive API docs at <code>/docs</code> using OpenAPI/Swagger — useful during development and for the developer to show clients what endpoints exist.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">PostgreSQL</div><span class="pill pill-green">Database</span></div>
+          <div class="tech-right">A powerful relational database (tables, rows, columns, foreign keys — like a very powerful Excel). Stores all persistent data: users, encrypted Facebook credentials, scraped post history (with unique hash constraints to prevent duplicates), generated application comments, reply statuses, and notification records. <strong>Alembic</strong> is the migration tool — when a developer adds a new table or changes a column, Alembic generates a migration script that updates the live database schema without losing existing data.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Redis</div><span class="pill pill-pink">Message broker</span></div>
+          <div class="tech-right">An ultra-fast in-memory key-value store used as the message queue between Celery Beat (the scheduler) and Celery Workers (the executors). When the scheduler triggers a job-scraping task, it serialises the task as a message and writes it to Redis. Workers continuously listen on Redis and pick up tasks to execute. Think of Redis as a fast shared noticeboard between processes — one process leaves a note, another picks it up. Redis is also used for caching frequently-read data to reduce database load.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Celery + Beat</div><span class="pill pill-orange">Task scheduler</span></div>
+          <div class="tech-right"><strong>Celery</strong> is a distributed task queue for Python. It has two main parts: <strong>Celery Beat</strong> is the cron-like scheduler — it fires tasks at configured times (1 PM, 3 PM, 5 PM, 8 PM, 10 PM). <strong>Celery Workers</strong> are the processes that actually execute those tasks. When Beat fires, it writes to Redis; Workers pick up from Redis and run the full scraping/classification/posting pipeline. This decoupling means the main FastAPI server is never blocked by the heavy automation tasks. The system runs 2 worker replicas (as configured in docker-compose.prod.yml) so tasks can run in parallel for different users.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Playwright</div><span class="pill pill-pink">Browser automation</span></div>
+          <div class="tech-right">A Microsoft-developed library that controls a real web browser (Chromium) programmatically from Python code. It can open pages, click elements, fill forms, scroll, read text content, and wait for page events — everything a human user can do, but automated. In this project it: opens Facebook → logs in with stored credentials → navigates to each group → scrolls the feed → extracts post text and metadata → posts generated comments. It runs in "headless" mode on the server (no visible window). The noVNC integration allows it to be switched to visible mode when the user needs to manually handle a CAPTCHA.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Fernet encryption</div><span class="pill pill-purple">Security</span></div>
+          <div class="tech-right">Symmetric authenticated encryption from Python's <code>cryptography</code> library. User Facebook credentials are encrypted with a Fernet key before being saved to PostgreSQL. The key is stored only in the server's <code>.env</code> file — never in the codebase or in the database. When Playwright needs to log in, it decrypts the credentials in memory, uses them, then discards them. Even if the database were compromised, credentials would be unreadable without the encryption key.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Tor proxy (SOCKS5)</div><span class="pill pill-gray">Anonymisation</span></div>
+          <div class="tech-right">The Tor network routes internet traffic through a series of volunteer-operated relay nodes worldwide. Playwright's browser is configured to use the local Tor SOCKS5 proxy (port 9050). From Facebook's perspective, requests appear to originate from an anonymous IP address that changes with each circuit. This is one layer of the anti-detection strategy alongside randomised delays, rate limiting, and human-like interaction patterns.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon icon-green">🧠</div>
+        <div><div class="card-title">AI & Machine Learning layer</div></div>
+      </div>
+      <div class="tech-section">
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Voyage AI</div><span class="pill pill-blue">Embeddings</span></div>
+          <div class="tech-right">An embedding model specifically tuned for professional/technical text retrieval. It converts any piece of text into a <strong>dense vector</strong> — a list of 1,024+ floating-point numbers that encodes the <em>semantic meaning</em> of the text in a high-dimensional mathematical space. Job posts and user profiles are both embedded. Matching is done by calculating <strong>cosine similarity</strong> between these vectors. Texts with similar meaning produce vectors that point in similar directions → high cosine similarity → strong match. This is why "React developer" correctly matches "frontend engineer" even though they share no keywords.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">OpenAI GPT</div><span class="pill pill-blue">Text generation</span></div>
+          <div class="tech-right">A large language model (LLM) accessed via the OpenAI API. Used to generate personalised job application comments. The system sends GPT: (1) a carefully engineered system prompt defining tone and constraints, (2) the user's profile as structured JSON, and (3) the full job post text. GPT returns a tailored comment — unique per post, under 150 words, professional in tone, mentioning only directly relevant skills. The Azure OpenAI endpoint option allows routing through Microsoft Azure for compliance or cost reasons.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Classification model</div><span class="pill pill-orange">Post filtering</span></div>
+          <div class="tech-right">A text classification system that makes two binary decisions: (1) is this Facebook post a job offer? (2) is this job relevant to this user's specific niche and skills? This could be implemented as a fine-tuned BERT-family transformer (e.g. <code>roberta-base</code> fine-tuned on labelled job/non-job post data) or as zero-shot classification by prompting GPT to return a JSON label. The latter is simpler to build but more expensive per call. Both approaches output a label and confidence score.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Reply classifier</div><span class="pill pill-pink">Intent detection</span></div>
+          <div class="tech-right">A multi-class classifier that analyses recruiter replies and assigns intent: <strong>Interested</strong>, <strong>Needs more info</strong>, <strong>Not interested</strong>, or <strong>Irrelevant</strong>. Implemented similarly to the job classifier — either a fine-tuned model or a GPT call with a structured prompt asking for JSON output. The output determines which replies surface as priority notifications in the user's dashboard and which are silently archived.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DevOps -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon icon-pink">🐳</div>
+        <div><div class="card-title">Infrastructure & DevOps</div></div>
+      </div>
+      <div class="tech-section">
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Docker</div><span class="pill pill-gray">Containers</span></div>
+          <div class="tech-right">A containerisation platform. Each service (Next.js frontend, FastAPI backend, Celery workers, Beat scheduler, PostgreSQL, Redis, Tor proxy) runs in its own isolated <strong>container</strong>. A container is like a lightweight virtual machine — it has its own filesystem, dependencies, and networking, but shares the host OS kernel. <strong>Docker Compose</strong> defines how all containers start together, connect on a private internal network, and share volumes. Benefits: no "works on my machine" problems, easy rollback by pulling a previous image, and simple horizontal scaling.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">nginx</div><span class="pill pill-gray">Reverse proxy</span></div>
+          <div class="tech-right">A high-performance web server acting as the front door to the entire system. It listens on port 80 (HTTP) and 443 (HTTPS). Port 80 immediately redirects to HTTPS. On port 443, it uses the request path to decide where to forward traffic: <code>/api/*</code> → FastAPI on port 8000, everything else → Next.js on port 3000. It also handles SSL termination (decrypting HTTPS requests), so the internal services only deal with plain HTTP. Security headers (X-Frame-Options, etc.) are added here.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Let's Encrypt / Certbot</div><span class="pill pill-green">SSL/TLS</span></div>
+          <div class="tech-right">A free, automated Certificate Authority. Certbot is the client tool that requests an SSL certificate from Let's Encrypt for the domain, proves domain ownership, and installs the certificate into nginx. Certificates auto-renew every 90 days via a systemd timer. This is what makes the site load as <code>https://</code> in browsers without a security warning.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">noVNC</div><span class="pill pill-gray">Remote browser</span></div>
+          <div class="tech-right">A browser-based VNC viewer that streams a remote desktop session through a WebSocket connection (ports 6080–6089). When a user needs to manually log into Facebook — to solve a CAPTCHA or approve a two-factor authentication prompt — the server's Chrome window is streamed to the user's browser. The user sees and interacts with the remote browser in real time, completes the authentication, and the automated session continues. Up to 10 concurrent sessions are supported (one port per session).</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Ubuntu 22.04 LTS</div><span class="pill pill-gray">OS</span></div>
+          <div class="tech-right">The host operating system on the deployment server. Ubuntu LTS (Long Term Support) releases receive 5 years of security updates — important for a production system storing user credentials. The server needs at minimum 2 vCPU / 2 GB RAM, with 4 vCPU / 4 GB recommended to handle multiple concurrent Playwright browser sessions alongside the web server and database.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Code quality -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon icon-teal">🛠️</div>
+        <div><div class="card-title">Code quality toolchain</div></div>
+      </div>
+      <div class="tech-section">
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">ESLint</div><span class="pill pill-gray">Linter</span></div>
+          <div class="tech-right">Static analysis tool that checks JavaScript/TypeScript code for errors, anti-patterns, and style violations. Enforces: no unused variables, proper TypeScript types, alphabetically-ordered imports grouped by type (built-in → external → internal → local), no <code>console.log</code> (use <code>console.warn</code>/<code>console.error</code> instead), React components as arrow functions with typed props. Configured in <code>eslint.config.mjs</code>. If violations exist, Husky blocks the Git commit.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Prettier</div><span class="pill pill-gray">Formatter</span></div>
+          <div class="tech-right">Opinionated code formatter. Automatically reformats code for consistent style — indentation (2 spaces), single vs double quotes, maximum line length, trailing commas, semicolons. Includes the Tailwind CSS plugin which sorts class names into a canonical standard order. Configured in <code>.prettierrc</code>. Runs alongside ESLint on every staged file before a commit.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Husky + lint-staged</div><span class="pill pill-gray">Git hooks</span></div>
+          <div class="tech-right">Husky intercepts Git operations and runs scripts at defined points. The <strong>pre-commit</strong> hook runs lint-staged before any commit is allowed. lint-staged (configured in <code>.lintstagedrc.json</code>) runs ESLint and Prettier only on the files currently staged for commit — not the whole codebase, keeping it fast. If ESLint reports errors (not warnings), the commit is blocked. This enforces code quality across all contributors automatically.</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-left"><div class="tech-name">Bun / npm</div><span class="pill pill-gray">Package managers</span></div>
+          <div class="tech-right">Package managers download and manage JavaScript dependencies. <strong>Bun</strong> is a newer, significantly faster alternative to npm — recommended in the project. <strong>npm</strong> is used in the Dockerfile for compatibility. Both read from <code>package.json</code>. Lock files (<code>bun.lockb</code> / <code>package-lock.json</code>) record exact dependency versions so every install is reproducible.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     SECTION: Workflow
+═══════════════════════════════════ -->
+<section class="section" id="sec-workflow">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">System Workflow</div>
+      <h2>From user sign-up to a recruiter reply — step by step</h2>
+      <p>The complete end-to-end flow of the system, with details on what happens at each stage and which technology is responsible.</p>
+    </div>
+
+    <div class="card">
+      <div class="timeline">
+
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-title">User registration &amp; profile setup</div>
+            <div class="tl-desc">The user visits the Next.js web portal and creates an account. FastAPI handles the registration request — passwords are hashed (bcrypt or similar) before being stored in PostgreSQL. After registering, the user fills in a detailed profile: uploads their CV/resume (stored as structured text in the database), enters their skills list, years of experience, work history highlights, and selects their primary job niche (e.g. Developer → React Developer) using a dropdown hierarchy. This profile becomes the context sent to all future AI calls.</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-title">Facebook credential storage (encrypted)</div>
+            <div class="tl-desc">The user provides their Facebook login credentials through a secure form in the portal. On the backend, these are immediately encrypted using <strong>Fernet symmetric encryption</strong> before being written to the <code>FacebookCredentials</code> table in PostgreSQL. The Fernet key lives only in the server's <code>.env</code> environment file — it is never in version control and is invisible to developers. The system also starts a noVNC-accessible browser session so the user can complete any required Facebook verification (2FA, CAPTCHA) once, establishing a persistent session cookie that is also encrypted and stored.</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-title">Celery Beat fires a scheduled task</div>
+            <div class="tl-desc">Celery Beat runs continuously and checks its schedule. At configured times (e.g. 1:00 PM, 3:00 PM, 5:00 PM, 8:00 PM, 10:00 PM) it serialises a task message — containing the user ID and task type — and writes it into the <strong>Redis</strong> task queue. A Celery Worker process (one of two replicas running in Docker) picks up the message almost immediately. This architecture means the FastAPI web server is completely separate from the heavy automation work and is never blocked or slowed down by it.</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot">4</div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-title">Browser automation — Facebook login</div>
+            <div class="tl-desc">The Celery Worker decrypts the user's Facebook credentials from PostgreSQL using the Fernet key. <strong>Playwright</strong> launches a Chromium browser instance configured to route all traffic through the local <strong>Tor SOCKS5 proxy</strong> (port 9050). It navigates to <code>facebook.com</code>, enters the credentials, waits for the page to load, and handles standard post-login popups. If a stored session cookie is available (from a previous successful run), it may skip the login step entirely by injecting the cookie. This is significantly faster and reduces detection risk.</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot">5</div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-title">Group membership check &amp; join requests</div>
+            <div class="tl-desc">For each Facebook group in the user's niche mapping (20–30 groups per niche, pre-configured in the system), Playwright navigates to the group page and checks the membership status. If the user is not a member, Playwright clicks "Join Group" to send a join request. Groups with pending join requests are skipped in this run and retried in future runs. Only groups where the user is an active member are scraped. The group list is stored in the database, allowing users to suggest additional groups that are reviewed and added by an admin.</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot">6</div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-title">Post scraping &amp; deduplication</div>
+            <div class="tl-desc">For each accessible group, Playwright scrolls down the feed and extracts post data: post text content, author name, post URL, timestamp, and basic engagement counts. As each post is extracted, its URL (or content) is hashed using <strong>SHA-256</strong> and checked against the <code>ScrapedPosts</code> table in PostgreSQL. If the hash already exists, the post is skipped instantly — O(1) lookup thanks to a database index. Only new posts continue to the classification pipeline. Posts older than a configurable threshold (e.g. 48 hours) are also skipped as they are unlikely to still be active opportunities.</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot">7</div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-title">Three-stage AI relevance classification</div>
+            <div class="tl-desc"><strong>Stage 1 — Keyword pre-filter:</strong> A fast rule-based check scans the post for job-related tokens ("hiring", "looking for", "need a", "apply", "CV", "freelance", "portfolio required"). Posts without any of these are discarded immediately — no API calls needed. This eliminates ~85% of scraped posts cheaply.<br><br><strong>Stage 2 — Semantic embedding match:</strong> The remaining posts are sent to Voyage AI to generate embedding vectors. The user's profile is also embedded (cached between runs). Cosine similarity is calculated between each post's vector and the user's profile vector. Posts below a similarity threshold (e.g. 0.70) are rejected.<br><br><strong>Stage 3 — Fine-grained classifier:</strong> Posts that pass the embedding threshold go through a classifier that makes the final relevance decision — accounting for niche-specific distinctions that embeddings alone may miss (e.g. Graphic Designer vs UI/UX Designer posts both score highly against a "designer" profile but require different skills).</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot">8</div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-title">GPT-powered application comment generation</div>
+            <div class="tl-desc">For each approved job post, the worker calls the OpenAI API with a carefully engineered prompt. The <strong>system message</strong> sets tone and constraints: professional, specific, human-sounding, no generic phrases, under 150 words, highlight only directly relevant skills. The <strong>user message</strong> injects structured JSON context: the user's full profile, skills list, top projects, and the complete job post text. GPT returns a unique application comment. Because the job post content differs every time, every generated comment is naturally different — avoiding the repetitive-text patterns that bot-detection systems look for.</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot">9</div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-title">Comment posting via Playwright</div>
+            <div class="tl-desc">Playwright navigates to the job post URL, locates the comment input box, and types the generated comment character by character with randomised delays (e.g. 80–140ms per character) to mimic natural human typing speed. After typing, it waits a natural pause (1–3 seconds) before submitting. Each application session is capped at <strong>5–10 job posts</strong> to stay well under any rate-limiting thresholds. If a post's comment box cannot be found or a CAPTCHA appears, the post is skipped and flagged for manual review.</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot">10</div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-title">Activity logging &amp; dashboard update</div>
+            <div class="tl-desc">Each successful application creates a record in the <code>Applications</code> table in PostgreSQL: job post URL, full generated comment text, timestamp, group name, group ID, and status (posted / failed / pending). The user's Next.js dashboard queries this table through the FastAPI <code>GET /api/applications</code> endpoint and displays the full history. The frontend can filter by date, status, and group. The user can see the exact comment that was posted for each application.</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot">11</div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-title">Reply monitoring &amp; intent classification</div>
+            <div class="tl-desc">In subsequent automation runs, Playwright revisits each active application's post URL and checks the comment thread for new replies since the last check. Replies are extracted and passed to the <strong>reply intent classifier</strong>. Classification output: <strong>Interested</strong> (e.g. "Please share your portfolio" / "Can we schedule a call?"), <strong>Needs more info</strong> (e.g. "What's your hourly rate?" / "Do you have experience with X?"), <strong>Not interested</strong> (e.g. "Position has been filled"), <strong>Irrelevant</strong> (spam, unrelated comment). Only Interested and Needs-more-info replies are stored as active leads and trigger dashboard notifications.</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot">12</div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-title">User manually takes over</div>
+            <div class="tl-desc">Once a recruiter replies with interest, the system stops automating for that thread and sends a <strong>dashboard notification</strong> to the user. From this point, all further communication is handled manually by the user directly on Facebook. The system has done its job — it found the opportunity, applied intelligently, and identified the interested recruiter. The user takes it from there with full context of what was posted and what the recruiter said.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     SECTION: Algorithms & AI
+═══════════════════════════════════ -->
+<section class="section" id="sec-algo">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Algorithms & AI</div>
+      <h2>The intelligence behind the system</h2>
+      <p>Detailed breakdowns of every algorithm and AI technique — including the maths your examiner might ask about.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon icon-blue">🔍</div>
+        <div><div class="card-title">Job post search &amp; matching pipeline</div><div class="card-sub">Three-stage cascade — fast to expensive, cheap to accurate</div></div>
+      </div>
+
+      <div class="algo-block algo-color-orange">
+        <strong>Stage 1 — Keyword pre-filter (rule-based)</strong><br>
+        The first pass is deliberately cheap. A set of job-related tokens (a curated list: "hiring", "looking for", "need a designer", "apply now", "send your CV", "portfolio required", "freelancer needed", etc.) is checked against each post's text using simple string matching. This is essentially a lookup against an inverted index built from the post tokens.<br><br>
+        Why start here? Because embedding ~500 posts per run through Voyage AI has cost and latency. This filter eliminates ~85% of posts instantly — only the remaining ~15% that show any job-related signal go to the more expensive stages.
+      </div>
+
+      <div class="algo-block algo-color-blue">
+        <strong>Stage 2 — Semantic matching with Voyage AI embeddings</strong><br>
+        Posts passing stage 1 are converted to <strong>embedding vectors</strong> using the Voyage AI API. An embedding is a list of 1,024+ floating-point numbers that encodes the semantic meaning of a text in a high-dimensional space — texts with similar meanings produce vectors that point in similar directions.<br><br>
+        The user's skill profile is also embedded (this result is cached between runs to avoid re-computing it every time). Then, for each job post vector <strong>A</strong> and the user profile vector <strong>B</strong>, cosine similarity is calculated:<br>
+        <span class="math">similarity = (A · B) / (‖A‖ × ‖B‖)</span>
+        The dot product measures how much the two vectors "agree" in each dimension. Dividing by the product of their magnitudes normalises it to the range [−1, 1]. In practice, for text, values range from ~0.3 (unrelated) to ~0.95 (near-identical meaning). Posts with similarity above a threshold (e.g. 0.70) proceed. The key advantage: "React developer" and "frontend engineer" score high similarity even though they share no words — the model understands synonymous concepts.
+      </div>
+
+      <div class="algo-block algo-color-purple">
+        <strong>Stage 3 — Niche-specific classification model</strong><br>
+        Embeddings are excellent for broad semantic similarity but can struggle with fine-grained professional distinctions. A "Graphic Designer" post and a "UI/UX Designer" post might both score 0.78 against a "Designer" profile. This final stage makes the precise call.<br><br>
+        The classifier is likely implemented as either:<br>
+        (a) A <strong>fine-tuned transformer</strong> (e.g. <code>roberta-base</code> or <code>distilbert-base</code>) trained on a labelled dataset of job posts tagged with niche labels, OR<br>
+        (b) <strong>Zero-shot classification via GPT</strong> — a structured prompt asks GPT to classify the post and return a JSON object with label and confidence score.<br><br>
+        Option (b) requires no training data but costs more per call. Option (a) is more economical at scale but requires a labelled training dataset. The system's architecture supports either.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon icon-green">📐</div>
+        <div><div class="card-title">Embeddings — the intuition and the maths</div><div class="card-sub">The most important AI concept in this project to understand</div></div>
+      </div>
+      <div class="algo-block algo-color-green">
+        <strong>What is an embedding?</strong><br>
+        Imagine a giant 1,024-dimensional space (impossible to visualise, but mathematically straightforward). Every word, sentence, and document can be placed as a point in this space. An embedding model is trained on massive text corpora to learn where to place these points — such that texts with similar meaning end up geometrically close to each other.<br><br>
+        <strong>Practical examples of what Voyage AI "understands":</strong><br>
+        • "React developer" ≈ "frontend engineer" ≈ "JavaScript developer" (very close)<br>
+        • "UI/UX designer" ≈ "product designer" (close, but not identical to "graphic designer")<br>
+        • "Full stack developer" vs "DevOps engineer" (moderately distant — related domain but different skills)<br>
+        • "Software developer" vs "chef" (very distant)<br><br>
+        <strong>Why cosine similarity and not Euclidean distance?</strong><br>
+        In high-dimensional spaces, Euclidean distance (straight-line distance) is dominated by the magnitude (length) of vectors, not their direction. A long document and a short document describing the same topic could be far apart in Euclidean space simply because one has more words. Cosine similarity measures the <em>angle</em> between vectors, which reflects directional agreement — i.e. topical alignment — independent of document length.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon icon-purple">✍️</div>
+        <div><div class="card-title">Application generation — prompt engineering</div><div class="card-sub">How GPT is instructed to write personalised, unique replies</div></div>
+      </div>
+      <div class="algo-block algo-color-purple">
+        <strong>System message (the persistent instruction to GPT):</strong><br>
+        "You are a professional job application writer helping a skilled freelancer apply for work. Write a comment that is concise (under 150 words), specific to the job post, professional in tone but conversational, and sounds like a real person — not a bot. Highlight only the skills directly relevant to this specific post. Do not use generic opening phrases like 'I am interested in your post'. Do not repeat information. End with a clear call to action."<br><br>
+        <strong>User message (injected JSON context per application):</strong>
+        <span class="math">{
+  "user_profile": {
+    "name": "Ali Hassan",
+    "skills": ["React", "Next.js", "TypeScript", "Node.js"],
+    "experience_years": 3,
+    "top_projects": ["E-commerce platform", "SaaS dashboard"]
+  },
+  "job_post": {
+    "text": "Looking for a React developer for a 2-month project...",
+    "group": "Pakistan Freelancers Network",
+    "posted_at": "2024-01-15T13:42:00"
+  }
+}</span>
+        <strong>Why this produces unique results:</strong> The job post text differs every single time, so GPT's output is naturally contextualised to each opportunity. Varying post text → varying context → varying output. The prompt constraints (no generic openings, specific to post, under 150 words) push GPT away from templated responses that bot detectors could pattern-match against.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon icon-orange">🔒</div>
+        <div><div class="card-title">Duplicate prevention — hashing</div><div class="card-sub">O(1) lookup to avoid reprocessing or reapplying to the same post</div></div>
+      </div>
+      <div class="algo-block algo-color-orange">
+        <strong>Algorithm:</strong> SHA-256 cryptographic hash<br><br>
+        Every scraped Facebook post URL (or a combination of URL + content) is fed through the SHA-256 hash function, producing a fixed-length 256-bit (64-character hex) fingerprint. This fingerprint is stored in the <code>ScrapedPosts</code> table with a <code>UNIQUE</code> constraint.<br><br>
+        Before processing any post, the system queries: <code>SELECT 1 FROM scraped_posts WHERE hash = ?</code>. With a <strong>B-tree index</strong> on the hash column (added automatically by PostgreSQL's UNIQUE constraint), this lookup is O(log n) in worst case, effectively O(1) in practice for the range of data sizes involved.<br><br>
+        <strong>Why not just store the URL?</strong> URLs alone could theoretically be recycled or edited by the post author. Hashing the content too means semantically identical posts (even if reposted with a different URL) are detected. SHA-256 is used because it is collision-resistant — it is computationally infeasible to find two different inputs that produce the same hash output.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon icon-pink">💬</div>
+        <div><div class="card-title">Reply intent classification</div><div class="card-sub">Multi-class text classification on recruiter responses</div></div>
+      </div>
+      <div class="algo-block algo-color-pink">
+        <strong>Task type:</strong> Multi-class single-label text classification<br><br>
+        <strong>Classes &amp; examples:</strong><br>
+        • <strong>Interested</strong> — "Please share your portfolio", "Can we have a call?", "Send me your rate card", "DM me your details"<br>
+        • <strong>Needs more info</strong> — "What's your availability?", "Do you have experience with e-commerce?", "What tools do you use?"<br>
+        • <strong>Not interested</strong> — "Position has been filled", "We need someone onsite", "Budget doesn't match"<br>
+        • <strong>Irrelevant</strong> — Someone else replying to the post, spam, unrelated comments<br><br>
+        <strong>Implementation options:</strong><br>
+        (a) <strong>Fine-tuned BERT</strong> trained on labelled reply data — fast at inference, no per-call cost, but needs a labelled training set<br>
+        (b) <strong>GPT zero-shot with JSON output</strong> — prompt asks for <code>{"label": "interested", "confidence": 0.91}</code> — flexible but costs per call<br><br>
+        Only Interested and Needs-more-info classifications trigger user notifications. Not-interested and Irrelevant are archived silently. This filtering ensures the user's notification feed contains only actionable information.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon icon-teal">🕵️</div>
+        <div><div class="card-title">Anti-detection strategy</div><div class="card-sub">How the system reduces the risk of Facebook identifying it as a bot</div></div>
+      </div>
+      <div class="algo-block algo-color-green">
+        The system uses a layered anti-detection approach — no single technique is foolproof, but in combination they significantly reduce detection risk:<br><br>
+        <strong>1. Tor proxy</strong> — Masks the server's real IP. Each Tor circuit uses a different exit node, making requests appear to originate from different countries.<br><br>
+        <strong>2. Rate limiting</strong> — Maximum 5–10 applications per run, 5–6 runs per day = max ~60 applications per day. Far below thresholds that trigger automated detection.<br><br>
+        <strong>3. Randomised typing delays</strong> — Comments are typed character-by-character at randomised human speeds (80–140ms per character) rather than pasted instantly.<br><br>
+        <strong>4. Post-action pauses</strong> — Random 1–5 second pauses before and after key interactions (clicking, typing, submitting).<br><br>
+        <strong>5. Unique comment content</strong> — Every comment is GPT-generated and contextually unique, avoiding the repetitive-text signature that bot detectors look for in comment patterns.<br><br>
+        <strong>6. Session persistence</strong> — Reusing stored session cookies avoids repeated login events that could flag unusual account activity.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     SECTION: Files
+═══════════════════════════════════ -->
+<section class="section" id="sec-files">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Project Files</div>
+      <h2>Every file in your repository — explained</h2>
+      <p>What each file is, what language or format it uses, and exactly what role it serves in the project.</p>
+    </div>
+
+    <!-- Frontend config files -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon icon-purple">🖥️</div>
+        <div><div class="card-title">Frontend configuration files</div></div>
+      </div>
+
+      <div class="file-card">
+        <div class="file-card-head"><span class="file-card-name">package.json</span><span class="pill pill-purple">JSON</span></div>
+        <div class="file-card-desc">The manifest file for the entire Node.js/Next.js project. It defines: the project name (<code>next.js-typescript-starting-template</code>), version, author info, and crucially — all <strong>dependencies</strong> (packages needed to run the app: React 19, Next.js 15, Axios, Tailwind, etc.) and <strong>devDependencies</strong> (tools needed only during development: TypeScript, ESLint, Prettier, Husky). The <code>scripts</code> section defines commands you can run: <code>npm run dev</code> starts the development server with Turbopack (a faster bundler), <code>npm run build</code> creates a production-optimised build, <code>npm run lint</code> runs ESLint, <code>npm run format</code> runs Prettier. The <code>lint-staged</code> section inside mirrors the <code>.lintstagedrc.json</code> config.</div>
+      </div>
+
+      <div class="file-card">
+        <div class="file-card-head"><span class="file-card-name">tsconfig.json</span><span class="pill pill-blue">JSON</span></div>
+        <div class="file-card-desc">TypeScript compiler configuration. Key settings: <code>"target": "ES2017"</code> — compile TypeScript down to ES2017 JavaScript (widely compatible); <code>"strict": true</code> — enable all strict type checks (no implicit <code>any</code>, strict null checks, etc.); <code>"noEmit": true</code> — don't actually output compiled JS files (Next.js handles that); <code>"paths": { "@/*": ["./src/*"] }</code> — path alias setup so you can import with <code>@/components/Button</code> instead of <code>../../components/Button</code>; <code>"plugins": [{ "name": "next" }]</code> — enables Next.js-specific TypeScript intelligence.</div>
+      </div>
+
+      <div class="file-card">
+        <div class="file-card-head"><span class="file-card-name">next.config.ts</span><span class="pill pill-purple">TypeScript</span></div>
+        <div class="file-card-desc">Next.js configuration file. <code>output: "standalone"</code> is the most important setting — it creates a minimal self-contained build in <code>.next/standalone/</code> that includes only what's needed to run the server. This makes Docker images dramatically smaller (no 500MB node_modules folder needed at runtime). The <code>images.remotePatterns</code> array tells Next.js's Image component which external image hostnames are allowed — here, <code>avatars.githubusercontent.com</code> is allowed for loading GitHub profile pictures.</div>
+      </div>
+
+      <div class="file-card">
+        <div class="file-card-head"><span class="file-card-name">postcss.config.mjs</span><span class="pill pill-gray">ESModule JS</span></div>
+        <div class="file-card-desc">PostCSS is a tool that transforms CSS using JavaScript plugins. This config enables the <code>@tailwindcss/postcss</code> plugin. During the build process, PostCSS processes all CSS files: Tailwind's plugin scans your HTML/JSX for class names used (e.g. <code>text-blue-500</code>, <code>flex</code>, <code>p-4</code>), generates the corresponding CSS rules, and purges any unused ones. The result: a tiny, optimised CSS file containing only the styles actually used in your codebase.</div>
+      </div>
+
+      <div class="file-card">
+        <div class="file-card-head"><span class="file-card-name">eslint.config.mjs</span><span class="pill pill-gray">ESModule JS</span></div>
+        <div class="file-card-desc">ESLint configuration in the new "flat config" format (ESLint v9+). Extends <code>eslint-config-next/core-web-vitals</code> (Next.js recommended rules including performance best practices) and <code>eslint-config-next/typescript</code> (TypeScript-specific rules). Additional rules configured: organised import order (builtin → external → internal → parent → sibling, each group alphabetically sorted), React arrow-function component style preference, no bare <code>console.log</code>, and TypeScript's unused-variable rule (prefix with <code>_</code> to suppress for intentionally unused vars like destructuring: <code>const [_ignored, setState] = useState()</code>).</div>
+      </div>
+
+      <div class="file-card">
+        <div class="file-card-head"><span class="file-card-name">.prettierrc</span><span class="pill pill-gray">JSON</span></div>
+        <div class="file-card-desc">Prettier formatting configuration. Defines the house style rules applied to every file: tab width (2 spaces), semicolons (yes/no), single vs double quotes, trailing commas in multi-line structures, bracket spacing in object literals, arrow function parentheses, and print width (maximum line length before wrapping). The <code>plugins: ["prettier-plugin-tailwindcss"]</code> entry enables automatic Tailwind class sorting — classes are reordered into a canonical sequence (layout → spacing → typography → color → etc.) whenever a file is formatted.</div>
+      </div>
+
+      <div class="file-card">
+        <div class="file-card-head"><span class="file-card-name">.env.example</span><span class="pill pill-orange">ENV template</span></div>
+        <div class="file-card-desc">A committed template showing which environment variables the application needs, without the actual secret values. This file is safe to commit to Git. The real <code>.env</code> file with actual API keys, database credentials, and encryption keys is listed in <code>.gitignore</code> and is never committed. On the server, developers copy <code>.env.example</code> to <code>.env</code> and fill in real values as documented in <code>DEPLOYMENT.md</code>. Environment variables are accessed in code as <code>process.env.VARIABLE_NAME</code> (Node.js) or <code>os.environ["VARIABLE_NAME"]</code> (Python).</div>
+      </div>
+    </div>
+
+    <!-- DevOps files -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon icon-pink">🐳</div>
+        <div><div class="card-title">DevOps &amp; deployment files</div></div>
+      </div>
+
+      <div class="file-card">
+        <div class="file-card-head"><span class="file-card-name">Dockerfile</span><span class="pill pill-pink">Dockerfile</span></div>
+        <div class="file-card-desc">Instructions for building the Next.js frontend Docker image. Uses a <strong>multi-stage build</strong> — a Docker best practice for minimal image sizes:<br><br>
+        <strong>Stage 1 (builder)</strong> — Uses <code>node:20-alpine</code> as the base (a minimal Alpine Linux + Node.js 20). Copies <code>package.json</code> and runs <code>npm ci</code> (clean install from lockfile). Accepts a build argument <code>NEXT_PUBLIC_API_URL</code> which is baked into the built JavaScript bundle at compile time (this is how the frontend knows the backend URL — it cannot be changed after build without rebuilding). Runs <code>npm run build</code> to compile everything.<br><br>
+        <strong>Stage 2 (runner)</strong> — Starts fresh from <code>node:20-alpine</code> (clean slate). Copies only the <code>.next/standalone</code> output and static files from stage 1. Sets <code>NODE_ENV=production</code>, <code>PORT=3000</code>, and <code>HOSTNAME=0.0.0.0</code> (bind to all interfaces). The final image is tiny because it has no <code>node_modules</code>, no source code, no build tools. Starts with <code>CMD ["node", "server.js"]</code>.</div>
+      </div>
+
+      <div class="file-card">
+        <div class="file-card-head"><span class="file-card-name">DEPLOYMENT.md</span><span class="pill pill-gray">Markdown</span></div>
+        <div class="file-card-desc">Step-by-step operational guide for deploying the entire system on a fresh Ubuntu 22.04 server. Covers: server requirements (min 2 vCPU / 2 GB RAM), firewall setup with UFW (ports 22, 80, 443, 6080–6089), Docker and Docker Compose installation, cloning the repository, configuring the <code>backend/.env</code> with all required secrets (SECRET_KEY, CREDENTIAL_ENCRYPTION_KEY, Voyage and OpenAI API keys, CORS origins, noVNC host), building Docker images, running database migrations with Alembic, nginx reverse proxy configuration (with full config block for HTTP→HTTPS redirect and API/frontend routing), SSL certificate setup with Certbot, the optional noVNC nginx proxying section (to route VNC through HTTPS instead of exposing ports 6080–6089), update procedures, and log monitoring commands.</div>
+      </div>
+
+      <div class="file-card">
+        <div class="file-card-head"><span class="file-card-name">.gitignore</span><span class="pill pill-gray">Git config</span></div>
+        <div class="file-card-desc">Tells Git which files and folders to never track or commit. Critical entries: <code>.env</code> (real secrets — must never be committed), <code>node_modules/</code> (can be reinstalled from package.json — hundreds of MB), <code>.next/</code> (compiled build output — regenerated by <code>npm run build</code>), <code>*.log</code> files, and OS-generated files like <code>.DS_Store</code> (macOS) and <code>Thumbs.db</code> (Windows). Without this file, developers might accidentally commit API keys or bloat the repository with compiled files.</div>
+      </div>
+    </div>
+
+    <!-- Code quality files -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon icon-teal">🛠️</div>
+        <div><div class="card-title">Code quality &amp; dependency files</div></div>
+      </div>
+
+      <div class="file-card">
+        <div class="file-card-head"><span class="file-card-name">.lintstagedrc.json</span><span class="pill pill-gray">JSON</span></div>
+        <div class="file-card-desc">Configuration for lint-staged — a tool that runs linters only on Git-staged files (files you've added with <code>git add</code>). This makes pre-commit checks fast because it only processes changed files, not the entire codebase. Config: for <code>*.{js,jsx,ts,tsx}</code> files, run ESLint with <code>--max-warnings=0</code> (treat warnings as errors — zero tolerance) followed by Prettier formatting. For <code>*.{json,md}</code> files, run Prettier only. This file is triggered by Husky's pre-commit hook.</div>
+      </div>
+
+      <div class="file-card">
+        <div class="file-card-head"><span class="file-card-name">bun.lockb</span><span class="pill pill-gray">Binary lockfile</span></div>
+        <div class="file-card-desc">Bun's binary lockfile (not human-readable). Records the exact resolved version of every installed package and all their transitive dependencies. When anyone runs <code>bun install</code>, they get identical package versions regardless of when they install. This is critical for reproducibility — without a lockfile, <code>npm install</code> might resolve to a newer patch version of a dependency that introduces a breaking change. Binary format is faster for Bun to parse than JSON-based lock files.</div>
+      </div>
+
+      <div class="file-card">
+        <div class="file-card-head"><span class="file-card-name">package-lock.json</span><span class="pill pill-gray">JSON lockfile</span></div>
+        <div class="file-card-desc">npm's equivalent of <code>bun.lockb</code> — a JSON lockfile recording exact dependency versions. Used by the Dockerfile (which uses <code>npm ci</code> rather than bun for Docker compatibility). <code>npm ci</code> installs exclusively from the lockfile — it never resolves versions, just installs what's recorded. This makes Docker builds fully deterministic: the same image built today and in six months will have identical packages.</div>
+      </div>
+    </div>
+
+    <!-- Docs -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon icon-orange">📄</div>
+        <div><div class="card-title">Documentation files</div></div>
+      </div>
+
+      <div class="file-card">
+        <div class="file-card-head"><span class="file-card-name">idea.md</span><span class="pill pill-orange">Markdown</span></div>
+        <div class="file-card-desc">The original project specification document — 17 sections describing every feature from user onboarding to final interest evaluation. This is the requirements document that was handed to the developer to implement. Key sections: User registration &amp; profile setup, Credential handling &amp; security, Automation scheduling strategy (5–6 runs/day, max 5–10 posts/run), Facebook group management (20–30 groups per niche, user-suggested groups), Browser automation &amp; login flow (Playwright), Job discovery &amp; scraping, Relevance classification, AI-generated application content, Automated comment posting, Activity logging &amp; thread tracking, Reply detection &amp; response classification, Duplicate prevention. Know this document — viva questions will directly reference these features.</div>
+      </div>
+
+      <div class="file-card">
+        <div class="file-card-head"><span class="file-card-name">README.md</span><span class="pill pill-gray">Markdown</span></div>
+        <div class="file-card-desc">Public-facing documentation for the Next.js TypeScript starter template that the frontend is based on. Documents the available npm scripts (<code>dev</code>, <code>build</code>, <code>start</code>, <code>lint</code>, <code>format</code>, <code>clear-cache</code>), the full project folder structure (src/app, src/components/ui, src/hooks, src/lib, src/services, src/types, etc.), Husky setup options, deployment targets (Vercel, Netlify, AWS, Docker), and contributors. The <code>clear-cache</code> script is particularly useful during development — it removes <code>.next/</code>, reinstalls packages from scratch, and restarts the dev server, fixing most mysterious build issues.</div>
+      </div>
+
+      <div class="file-card">
+        <div class="file-card-head"><span class="file-card-name">CONTRIBUTING.md</span><span class="pill pill-gray">Markdown</span></div>
+        <div class="file-card-desc">Contributor guide covering: environment setup (Node 18+, Bun recommended), branching conventions (<code>feat/feature-name</code>, <code>fix/bug-name</code>, <code>docs/update</code>), commit message format (<code>feat: add login page</code>, <code>fix: button alignment</code>), code style expectations (TypeScript everywhere, destructure props, arrow function components), and the pull request checklist (code runs, tests pass, lint clean, clear PR description). This enforces a consistent workflow across all team members.</div>
+      </div>
+
+      <div class="file-card">
+        <div class="file-card-head"><span class="file-card-name">SECURITY.md</span><span class="pill pill-orange">Markdown</span></div>
+        <div class="file-card-desc">Security policy document. Lists which versions of the project are currently receiving security updates (currently 5.1.x and 4.0.x) and describes the process for reporting security vulnerabilities privately — directing researchers to the responsible disclosure channel rather than publicly posting the exploit. This is standard practice for any project that could hold user data (this project stores encrypted credentials, making it a security-sensitive target).</div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     SECTION: Viva Q&A
+═══════════════════════════════════ -->
+<section class="section" id="sec-viva">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Viva Preparation</div>
+      <h2>15 likely exam questions with model answers</h2>
+      <p>These are the questions an examiner is most likely to ask, based on the complexity and novelty of each component. Tap any question to reveal the answer.</p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">💡 Tip for your viva</div>
+      <p>Open with the one-sentence summary. When answering technical questions, always: name the technology → explain what it does generally → explain specifically how it's used in this project. Never just say "I used X" without explaining how or why.</p>
+    </div>
+
+    <div class="card">
+      <div class="qa-wrap" id="qa-list"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <p>PropMate — Automated Facebook Job Application System &nbsp;·&nbsp; Final Year Project Study Guide &nbsp;·&nbsp; For academic viva preparation</p>
+  </div>
+</footer>
+
+<script>
+const QAS = [
+  ["What is the overall purpose of your project?",
+   "PropMate is an automated job application system for Facebook groups. Users register once on a web portal, providing their skills, experience, and Facebook credentials. The system then runs 5–6 times daily: Playwright (a browser automation tool) logs into Facebook, scrapes job posts from 20–30 relevant groups, passes them through a three-stage AI pipeline (keyword filter → Voyage AI semantic matching → GPT/BERT classification), generates personalised application comments via OpenAI GPT, and posts them. It also monitors replies and notifies the user when a recruiter shows interest. The goal is to eliminate repetitive manual searching and applying, while keeping the user fully in control of final decisions."],
+  ["Explain the three-stage job classification pipeline.",
+   "The pipeline is designed as a cascade from cheapest to most expensive: Stage 1 is a keyword pre-filter — a fast string scan for job-related tokens (hiring, apply, CV, portfolio). This eliminates ~85% of posts with zero API cost. Stage 2 uses Voyage AI to generate embedding vectors for both the post and the user's profile, then calculates cosine similarity — posts below 0.70 similarity are rejected. This catches semantic matches that keyword matching misses (e.g. 'React developer' matching 'frontend engineer'). Stage 3 is a fine-grained classifier (fine-tuned transformer or GPT zero-shot) that makes the final relevance call, catching niche-specific distinctions that broad embedding similarity misses — like distinguishing a UI/UX Designer post from a Graphic Designer post."],
+  ["What is a vector embedding and what is cosine similarity?",
+   "An embedding is a numerical representation of text as a high-dimensional vector — a list of 1,024+ floating-point numbers — produced by a neural network trained to place semantically similar texts close together in that space. Cosine similarity measures the angle between two vectors: similarity = (A · B) / (||A|| × ||B||). A value near 1.0 means the vectors point in nearly the same direction, i.e. the texts have very similar meaning. We use cosine similarity rather than Euclidean distance because it is invariant to vector magnitude — it compares the direction (topic/meaning) of vectors rather than their length, which eliminates bias from differences in text length between a short job post and a detailed user profile."],
+  ["Why did you use Next.js instead of plain React?",
+   "Next.js provides several critical features that plain React lacks: Server-Side Rendering (SSR) — pages are pre-built on the server, so users see content faster and search engines can index the site. File-based routing — each file in the app/ directory automatically becomes a URL, eliminating manual router setup. Built-in TypeScript support. The 'standalone' output mode — creates a minimal Docker-deployable build without node_modules at runtime, making containers smaller. API routes for lightweight server-side code. For a production web portal expected to handle multiple users, these features make Next.js significantly more appropriate than client-side-only React."],
+  ["How does Docker improve the deployment of this project?",
+   "Docker packages each service — frontend, FastAPI backend, Celery workers, Beat scheduler, PostgreSQL, Redis, Tor proxy — into an isolated container with its own dependencies. Docker Compose defines how all containers start together and communicate on a private internal network. Key benefits: (1) Reproducibility — the same container runs identically on any machine, eliminating 'works on my PC' problems. (2) Isolation — a crash in one container doesn't affect others. (3) Easy updates — to update the backend, rebuild only that container and restart it without touching the database or frontend. (4) The multi-stage Dockerfile keeps the frontend image small by excluding build tools and node_modules from the final production image."],
+  ["How are user Facebook credentials protected?",
+   "Credentials are protected at every layer: In transit, all communication goes over HTTPS enforced by nginx with Let's Encrypt SSL certificates. At rest, credentials are encrypted with Fernet symmetric encryption (Python's cryptography library) before being written to PostgreSQL. The Fernet encryption key lives only in the server's .env environment file — never in the codebase, never in Git, never in the database. Even if the PostgreSQL database were compromised, the credentials would be unreadable without the key. In memory, decrypted credentials are used only during the Playwright login process and immediately discarded — they are never logged."],
+  ["What is the role of Redis and Celery and why are they separate from FastAPI?",
+   "FastAPI is the web server — its job is to respond to HTTP requests quickly. If the heavy automation work (launching browsers, calling AI APIs, scraping Facebook) ran directly inside FastAPI, it would block the web server for the entire duration of each task — potentially minutes — making the API unresponsive for other users. Celery decouples this: Celery Beat places task messages into Redis at scheduled times. Celery Workers pick up and execute tasks independently of the web server. Redis is the shared message broker between them — a fast in-memory queue. This architecture means FastAPI stays responsive, tasks can run in parallel (two worker replicas), and failed tasks can be retried automatically."],
+  ["How does Playwright avoid being detected as a bot?",
+   "The system uses a layered anti-detection strategy: (1) Tor proxy — routes traffic through anonymous IP addresses, masking the server's real IP. (2) Rate limiting — maximum 5–10 applications per run, 5–6 runs per day — far below detection thresholds. (3) Randomised typing delays — comments are typed character-by-character at 80–140ms intervals, mimicking human typing speed rather than instant paste. (4) Post-action pauses — 1–5 second random delays between key interactions. (5) Unique comment content — every comment is GPT-generated and contextually different, avoiding the repeated-text signatures that bot detectors pattern-match. (6) Session cookie reuse — avoids repeated login events that trigger security checks."],
+  ["What is TypeScript and why is it used in this project?",
+   "TypeScript is a superset of JavaScript that adds optional static typing. You declare the type of variables, function parameters, and return values — e.g. function getUser(id: string): Promise<User>. The TypeScript compiler (tsc) checks these types at build time, before code runs. Benefits: bugs are caught in the IDE immediately rather than in production; refactoring large codebases is safer because the compiler identifies all affected call sites; code is self-documenting since type signatures serve as inline documentation; IDE autocomplete becomes accurate and trustworthy. For a team project with multiple contributors, TypeScript significantly reduces runtime errors and makes the codebase easier to understand and maintain."],
+  ["Walk me through the database schema.",
+   "The PostgreSQL database has these core tables: Users — stores user ID, hashed password, email, and profile JSON (skills, experience, niche preferences). FacebookCredentials — stores user ID and Fernet-encrypted Facebook login credentials plus encrypted session cookies. ScrapedPosts — stores post URL, SHA-256 hash (unique constraint prevents duplicates), post text, author, timestamp, group name, and processing status. Applications — stores application ID, user ID (FK), scraped post ID (FK), generated comment text, timestamp, and posting status (success/failed/pending). Replies — stores reply text, application ID (FK), classification label (interested/needs_info/not_interested/irrelevant), and priority flag. All tables use auto-incrementing integer or UUID primary keys and appropriate foreign key constraints. Alembic migrations track all schema changes."],
+  ["What is nginx and why is it needed?",
+   "nginx is a reverse proxy and web server sitting in front of all backend services. Without it, the user's browser would need to know the exact server port of each service (3000 for Next.js, 8000 for FastAPI). Instead, nginx listens on ports 80 and 443 and routes based on URL path: /api/* → FastAPI on port 8000, everything else → Next.js on port 3000. This gives the user a single consistent domain. nginx also: handles SSL termination (decrypts HTTPS so internal services use plain HTTP), adds security headers (X-Frame-Options, X-Content-Type-Options), forces HTTP → HTTPS redirects, and can be configured to proxy noVNC's WebSocket connections through port 443 instead of exposing ports 6080–6089 directly."],
+  ["What is Alembic and why is it needed?",
+   "Alembic is a database migration tool for SQLAlchemy (Python's ORM). During development, the database schema evolves — new tables are added, columns are renamed, constraints change. Without migrations, the developer would have to manually write and run SQL ALTER TABLE statements on the production database, risking data loss and version inconsistency. With Alembic: the developer defines schema changes in Python, Alembic generates a migration script (an auto-numbered Python file with upgrade() and downgrade() functions), and running alembic upgrade head applies all pending migrations in order. The production deployment guide explicitly includes: docker compose exec api alembic upgrade head after every deployment."],
+  ["Explain the prompt engineering used for GPT application generation.",
+   "The GPT call is structured as a two-part message: The system message is persistent instruction that defines the AI's role and constraints — write under 150 words, be specific to the job post, avoid generic openings, highlight only directly relevant skills, end with a call to action. The user message injects structured JSON context: the user's profile (name, skills array, years of experience, top projects) and the complete job post text. Because the post text differs every time, GPT produces naturally varied output — each comment is contextualised to the specific opportunity. The JSON structure ensures GPT receives clean, unambiguous data rather than free-form text. The strict constraints in the system message push GPT away from the templated, repetitive responses that Facebook's bot detection systems can pattern-match against."],
+  ["What is noVNC and when is it used?",
+   "noVNC is a browser-based VNC (Virtual Network Computing) client that streams a remote desktop session through a WebSocket connection. In this project, when the Playwright automation encounters a situation requiring human interaction — a CAPTCHA, a two-factor authentication prompt, an unusual Facebook security check — it cannot proceed automatically. noVNC allows the user to see and control the actual Chrome browser window running on the server, from their own browser, in real time. The server runs noVNC on ports 6080–6089 (one port per concurrent session, supporting up to 10 simultaneous users). Optionally, these can be proxied through nginx on port 443 instead of being directly exposed, for a cleaner security posture."],
+  ["What code quality tools does the project use and what problem do they solve?",
+   "Three tools work together: ESLint is the linter — it statically analyses TypeScript/JavaScript code for errors, anti-patterns, and style violations (unused variables, wrong import order, missing types, console.log usage). Prettier is the code formatter — it auto-reformats all code to a consistent style on every save and commit. Husky + lint-staged is the enforcement layer — Husky hooks into Git's pre-commit event and runs lint-staged, which runs ESLint and Prettier only on staged files before any commit is allowed. If ESLint reports errors (zero-warning tolerance), the commit is blocked. The problem they solve: in a multi-developer project, code style inconsistencies and subtle bugs accumulate over time. These tools make quality enforcement automatic and inescapable — every commit that reaches the repository has been linted and formatted."]
+];
+
+const list = document.getElementById('qa-list');
+QAS.forEach(([q,a], i) => {
+  const item = document.createElement('div');
+  item.className = 'qa-item';
+  item.innerHTML = `
+    <button class="qa-q" onclick="toggleQA(this, 'ans-${i}')">
+      <span class="qnum">Q${i+1}</span>
+      <span class="qtxt">${q}</span>
+      <span class="qchev">▾</span>
+    </button>
+    <div class="qa-a" id="ans-${i}">${a}</div>`;
+  list.appendChild(item);
+});
+
+function toggleQA(btn, id) {
+  const ans = document.getElementById(id);
+  const isOpen = ans.classList.contains('open');
+  ans.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+}
+
+function show(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
